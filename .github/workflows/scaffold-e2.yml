@@ -1,0 +1,57 @@
+name: Scaffold Epic E2
+
+# You can trigger this manually under Actions → Scaffold Epic E2 → Run workflow
+on:
+  workflow_dispatch:
+
+jobs:
+  scaffold:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v3
+
+      - name: Scaffold E2 A–Z structure
+        run: |
+          mkdir -p E2
+          declare -A hdrs=(
+            [01-Executive-Summary-Objectives.md]="# E2‑A: Executive Summary & Objectives"
+            [02-Stakeholder-Market-Analysis.md]   ="# E2‑B: Stakeholder & Market Analysis"
+            [03-Governance-Roles.md]             ="# E2‑C: Governance & Roles"
+            [04-Scope-Requirements.md]           ="# E2‑D: Scope & Requirements"
+            [05-Schedule-Roadmap.md]             ="# E2‑E: Schedule & Roadmap"
+            [06-Budget-Resources.md]             ="# E2‑F: Budget & Resources"
+            [07-Risk-Management.md]              ="# E2‑G: Risk Management"
+            [08-Quality-Procurement.md]          ="# E2‑H: Quality & Procurement"
+            [09-Design-Architecture.md]          ="# E2‑I: Design & Architecture"
+            [10-Development-Build.md]            ="# E2‑J: Development / Build"
+            [11-Testing-Validation.md]           ="# E2‑K: Testing & Validation"
+            [12-Deployment-Release.md]           ="# E2‑L: Deployment & Release"
+            [13-Monitoring-Control.md]           ="# E2‑M: Monitoring & Control"
+            [14-Closing-Handover.md]             ="# E2‑N: Closing & Handover"
+            [15-Continuous-Improvement.md]       ="# E2‑O: Continuous Improvement"
+            [16-Templates-Toolkits.md]           ="# E2‑P: Templates & Toolkits"
+            [17-Metrics-Reporting.md]            ="# E2‑Q: Metrics & Reporting"
+            [18-Change-Management.md]            ="# E2‑R: Change Management"
+            [19-Communication-Plan.md]           ="# E2‑S: Communication Plan"
+            [20-Governance-Alignment.md]         ="# E2‑T: Governance Alignment"
+            [21-Case-Specific-Deep-Dive.md]      ="# E2‑U: Case‑Specific Deep‑Dive"
+            [22-Glossary-Acronyms.md]            ="# E2‑V: Glossary & Acronyms"
+            [23-Assessment-Quizzes.md]          ="# E2‑W: Assessment & Quizzes"
+            [24-Advanced-Topics.md]              ="# E2‑X: Advanced Topics"
+            [25-Further-Reading-References.md]   ="# E2‑Y: Further Reading & References"
+            [26-Certification-Next-Steps.md]     ="# E2‑Z: Certification & Next Steps"
+          )
+          for file in "${!hdrs[@]}"; do
+            if [ ! -f "E2/$file" ]; then
+              echo "${hdrs[$file]}" > "E2/$file"
+              echo -e "\n*Content TBD — we’ll flesh this out next.*" >> "E2/$file"
+            fi
+          done
+
+      - name: Commit & push scaffold
+        run: |
+          git config user.name "github-actions[bot]"
+          git config user.email "github-actions[bot]@users.noreply.github.com"
+          git add E2
+          git commit -m "E2: Scaffold A–Z placeholders via CI"
+          git push
